@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Branded Link Shortener</title>
+</head>
+<body>
+  <h1>Branded Link Shortener</h1>
+  <form id="shortenerForm">
+    <input type="url" id="url" placeholder="Enter URL" required>
+    <input type="text" id="short" placeholder="Custom short code" required>
+    <button type="submit">Shorten</button>
+  </form>
+  <p id="result"></p>
+
+  <script>
+    document.getElementById("shortenerForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const url = document.getElementById("url").value;
+      const short = document.getElementById("short").value;
+      const res = await fetch("/api/shorten", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ url, short })
+      });
+      const data = await res.json();
+      document.getElementById("result").innerText = `Short link: ${window.location.origin}/${short}`;
+    });
+  </script>
+</body>
+</html>
